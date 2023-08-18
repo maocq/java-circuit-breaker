@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class GetInformationUseCase {
 
-    private InformationGateway informationGateway;
+    private final InformationGateway informationGateway;
 
     public Mono<String> getInformation(String id) {
         return informationGateway.getInformation(id);

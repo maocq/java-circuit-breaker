@@ -20,5 +20,25 @@ management:
     health:
       probes:
         enabled: true
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+adapter:
+  restconsumer:
+    timeout: 5000
+    url: "https://run.mocky.io"
+resilience4j:
+  circuitbreaker:
+    instances:
+      getInformation:
+        registerHealthIndicator: true
+        failureRateThreshold: 50      # Configura el umbral de la tasa de fallos en porcentaje.
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: "2s"
+        permittedNumberOfCallsInHalfOpenState: 3  # Configura el número de llamadas permitidas cuando el CircuitBreaker está medio abierto.
+        slidingWindowSize: 6        # Configura el tamaño de la ventana que se utiliza para registrar el resultado de las llamadas cuando el CircuitBreaker está cerrado.
+        minimumNumberOfCalls: 6     # Configura la cantidad mínima de llamadas que se requieren antes de que el CircuitBreaker pueda calcular las tasas
+        waitDurationInOpenState: "20s"  # El tiempo que debe esperar el CircuitBreaker antes de pasar de abierto a semiabierto.
